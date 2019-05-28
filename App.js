@@ -16,6 +16,20 @@ export default class App extends Component {
     firebase.messaging().getToken()
       .then(fcmToken => {
       if(fcmToken) {
+        fetch('https://gcm-http.googleapis.com/gcm/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'key=AAAAFvcPpzw:APA91bEcq6BZtHmAVRzgfg6RIfSOsRYNZdcDQGGEAzeePLYReh0Sz-MKiN7WCsYhmQ78NGA6VghrkMNMCgsIJj0u48PohKqN55qnNZ3q8TtM2sdY4Xl3aEbJ2JFSRMLEWpqPnSiIlE60',
+          },
+          body: JSON.stringify({
+            'to': fcmToken,
+            'notification': {
+              'body': 'Test',
+              'title': 'Test'
+            }
+          })
+        });
         alert(fcmToken);
       }
       alert("Testing");
@@ -80,7 +94,7 @@ export default class App extends Component {
         'Authorization': 'key=AAAAFvcPpzw:APA91bEcq6BZtHmAVRzgfg6RIfSOsRYNZdcDQGGEAzeePLYReh0Sz-MKiN7WCsYhmQ78NGA6VghrkMNMCgsIJj0u48PohKqN55qnNZ3q8TtM2sdY4Xl3aEbJ2JFSRMLEWpqPnSiIlE60',
       },
       body: JSON.stringify({
-        'to': '/topics/firstTopic',
+        'to': firebase.messaging().getToken(),
         'notification': {
           'body': 'Test',
           'title': 'Test'
